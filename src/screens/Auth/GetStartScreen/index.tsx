@@ -1,18 +1,45 @@
-import React from 'react';
+import React, {useRef} from 'react';
+import {Button} from 'react-native-paper';
+import ActionSheet, {ActionSheetRef} from 'react-native-actions-sheet';
 
 import {styles} from './style';
-import {View, SafeAreaView, ScrollView} from 'react-native';
+import {
+  View,
+  SafeAreaView,
+  ScrollView,
+  useWindowDimensions,
+} from 'react-native';
 import {CustomText} from '../../../shared/ui';
-import {Button} from 'react-native-paper';
 
 interface GettingStartScreenProps {}
 
-export const GettingStartScreen: React.FC<GettingStartScreenProps> = () => {
+export const GettingStartScreen: React.FC<GettingStartScreenProps> = ({
+  navigation,
+}) => {
+  const actionSheetRef = useRef<ActionSheetRef>(null);
+
+  const {width} = useWindowDimensions();
+
+  const onOpenGetStartedSheet = () =>
+    actionSheetRef?.current?.setModalVisible(true);
+  const onCloseGetStartedSheet = () =>
+    actionSheetRef.current?.setModalVisible(false);
+
+  const onGoToLogin = () => {
+    onCloseGetStartedSheet();
+    navigation.navigate('Login');
+  };
+
+  const onGoToSignUp = () => {
+    onCloseGetStartedSheet();
+    navigation.navigate('UserInfo');
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.contentContainer}>
-          <CustomText textArticle style={{}}>
+          <CustomText textArticle style={styles.alignText}>
             Welcome to
           </CustomText>
           <CustomText h1 style={styles.alignText}>
@@ -24,14 +51,42 @@ export const GettingStartScreen: React.FC<GettingStartScreenProps> = () => {
         </View>
         <Button
           mode="contained"
-          labelStyle={{
-            fontSize: 16,
-            fontFamily: 'Circe-Bold',
-            lineHeight: 20,
-          }}>
+          labelStyle={styles.buttonTextStyle}
+          onPress={onOpenGetStartedSheet}>
           Get started
         </Button>
       </ScrollView>
+
+      <ActionSheet
+        containerStyle={{
+          width,
+          paddingHorizontal: 16,
+          paddingVertical: 18,
+        }}
+        ref={actionSheetRef}>
+        <View style={{marginBottom: 32}}>
+          <CustomText style={{paddingBottom: 32}}>Sign in</CustomText>
+
+          <CustomText style={{paddingBottom: 32}}>
+            Hi there! by siginign in you will be able to continue using the app
+            and get all the information lets get started
+          </CustomText>
+
+          <Button
+            mode="contained"
+            style={{backgroundColor: '#000000', marginBottom: 12}}
+            onPress={onGoToSignUp}>
+            Sign in
+          </Button>
+          <Button
+            mode="contained"
+            style={{backgroundColor: '#e8f3ff'}}
+            textColor="#000000"
+            onPress={onGoToLogin}>
+            Sign Up
+          </Button>
+        </View>
+      </ActionSheet>
     </SafeAreaView>
   );
 };

@@ -16,4 +16,9 @@ export const styles = StyleSheet.create({
   alignText: {
     textAlign: 'center',
   },
+  buttonTextStyle: {
+    fontSize: 16,
+    fontFamily: 'Circe-Bold',
+    lineHeight: 20,
+  },
 });
