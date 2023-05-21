@@ -28,4 +28,5 @@ export enum COLORS {
   red = '#DC1E2C',
   orange = '#F18809',
   dimGray = '#6A6A6A',
+  silverGray = '#ABABAB',
 }

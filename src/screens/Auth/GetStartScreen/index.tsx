@@ -10,8 +10,12 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import {CustomText} from '../../../shared/ui';
+import {RootNavigation} from '../../../navigation/router/interface';
+import {AuthParams} from '../../../navigation/auth-stack/interface';
 
-interface GettingStartScreenProps {}
+interface GettingStartScreenProps {
+  navigation: RootNavigation;
+}
 
 export const GettingStartScreen: React.FC<GettingStartScreenProps> = ({
   navigation,
@@ -27,12 +31,12 @@ export const GettingStartScreen: React.FC<GettingStartScreenProps> = ({
 
   const onGoToLogin = () => {
     onCloseGetStartedSheet();
-    navigation.navigate('Login');
+    navigation.navigate(AuthParams.Login);
   };
 
   const onGoToSignUp = () => {
     onCloseGetStartedSheet();
-    navigation.navigate('UserInfo');
+    navigation.navigate(AuthParams.UserInfo);
   };
 
   return (

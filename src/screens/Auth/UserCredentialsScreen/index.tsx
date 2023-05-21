@@ -2,11 +2,15 @@ import React, {useState} from 'react';
 import {Pressable, SafeAreaView, ScrollView, View} from 'react-native';
 
 import {CustomText} from '../../../shared/ui';
-import {styles} from './style';
 import {Button, TextInput} from 'react-native-paper';
 import {AntDesign} from '@expo/vector-icons';
+import {RootNavigation} from '../../../navigation/router/interface';
+import {AuthParams} from '../../../navigation/auth-stack/interface';
+import {styles} from './style';
 
-interface UserCredentialsScreenProps {}
+interface UserCredentialsScreenProps {
+  navigation: RootNavigation;
+}
 
 export const UserCredentialsScreen: React.FC<UserCredentialsScreenProps> = ({
   navigation,
@@ -16,7 +20,7 @@ export const UserCredentialsScreen: React.FC<UserCredentialsScreenProps> = ({
 
   const onGoBack = () => navigation.goBack();
 
-  const onGoToLogin = () => navigation.navigate('Login');
+  const onGoToLogin = () => navigation.navigate(AuthParams.Login);
 
   return (
     <SafeAreaView style={{flex: 1}}>
