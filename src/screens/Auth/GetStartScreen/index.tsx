@@ -80,14 +80,14 @@ export const GettingStartScreen: React.FC<GettingStartScreenProps> = ({
             mode="contained"
             style={{backgroundColor: '#000000', marginBottom: 12}}
             onPress={onGoToSignUp}>
-            Sign in
+            Sign Up
           </Button>
           <Button
             mode="contained"
             style={{backgroundColor: '#e8f3ff'}}
             textColor="#000000"
             onPress={onGoToLogin}>
-            Sign Up
+            Sign In
           </Button>
         </View>
       </ActionSheet>

@@ -5,8 +5,13 @@ import {styles} from './style';
 import {CustomText} from '../../../shared/ui';
 import {AntDesign} from '@expo/vector-icons';
 import {Button, TextInput} from 'react-native-paper';
+import {useLoginUser} from '../../../shared/hooks';
+import {usePersistedStore} from '../../../services/Store/store';
+import {RootNavigation} from '../../../navigation/router/interface';
 
-interface LoginScreenProps {}
+interface LoginScreenProps {
+  navigation: RootNavigation;
+}
 
 export const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
   const onGoBack = () => navigation.goBack();
@@ -14,12 +19,18 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const onGoToHome = () => navigation.navigate('Home');
+  const {setHasLoginToken} = usePersistedStore(state => state);
+
+  const {mutate: onLogin, isLoading} = useLoginUser();
+
+  const onPressLogin = () => {
+    onLogin({email, password}, {onSuccess: () => setHasLoginToken(true)});
+  };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <ScrollView contentContainerStyle={{flexGrow: 1, paddingHorizontal: 24}}>
-        <Pressable onPress={onGoBack} style={{marginBottom: 32}}>
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollContentContainer}>
+        <Pressable onPress={onGoBack} style={styles.pressableContainerStyle}>
           <AntDesign name="arrowleft" size={24} color="black" />
         </Pressable>
         <View style={{marginBottom: 32}}>
@@ -27,25 +38,16 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
             Welcome!
           </CustomText>
           <CustomText textDefault>
-            User your email and password to login{' '}
+            Enter your email and password to login
           </CustomText>
         </View>
 
         <TextInput
           label="Email"
           placeholder="Enter your email"
-          style={{
-            backgroundColor: 'transparent',
-          }}
-          contentStyle={{
-            borderRadius: 16,
-            borderColor: '#ABABAB',
-            borderWidth: 1,
-            marginBottom: 12,
-          }}
-          underlineStyle={{
-            backgroundColor: 'transparent',
-          }}
+          style={styles.inputStyle}
+          contentStyle={[styles.inputContentStyle, styles.inputSpace]}
+          underlineStyle={styles.inputUnderline}
           defaultValue={email}
           onChangeText={setEmail}
           maxLength={20}
@@ -54,18 +56,10 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
         <TextInput
           label="Password"
           placeholder="Enter your password"
-          style={{
-            backgroundColor: 'transparent',
-          }}
-          contentStyle={{
-            borderRadius: 16,
-            borderColor: '#ABABAB',
-            borderWidth: 1,
-          }}
+          style={styles.inputStyle}
+          contentStyle={styles.inputContentStyle}
           secureTextEntry
-          underlineStyle={{
-            backgroundColor: 'transparent',
-          }}
+          underlineStyle={styles.inputUnderline}
           defaultValue={password}
           onChangeText={setPassword}
           maxLength={20}
@@ -74,9 +68,9 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
 
       <Button
         mode="contained"
-        onPress={onGoToHome}
-        // disabled={!isValidInputs}
-        style={{marginVertical: 32, marginHorizontal: 16}}
+        onPress={onPressLogin}
+        loading={isLoading}
+        style={styles.buttonStyle}
         contentStyle={{}}>
         Login
       </Button>

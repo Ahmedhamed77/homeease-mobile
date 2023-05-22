@@ -1,14 +1,16 @@
-import * as React from 'react';
+import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 
 import {AuthStack} from '../auth-stack';
 import {TabNavigation} from '../tab-navigation';
+import {usePersistedStore} from '../../services/Store/store';
 
 export const Router = () => {
-  const token = false;
+  const {hasLoginToken} = usePersistedStore();
+
   return (
     <NavigationContainer>
-      {token ? <AuthStack /> : <TabNavigation />}
+      {hasLoginToken ? <TabNavigation /> : <AuthStack />}
     </NavigationContainer>
   );
 };
