@@ -1,9 +1,12 @@
 export enum COLORS {
   dark = '#222222',
   primary = '#6949ff',
+  melrose = '#b4a4ff',
   white = '#FFFFFF',
   accent = '#f0edff',
   dark_red = '#FF1F00',
+
+  smoke_white = '#F6F6F6',
 
   aqua = '#1B86C5',
   grey = '#666666',

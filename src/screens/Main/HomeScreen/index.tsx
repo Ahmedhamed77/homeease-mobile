@@ -8,6 +8,7 @@ import {
   MainParams,
 } from '../../../navigation/main-stack/interface';
 import {styles} from './style';
+import CookieManager from '@react-native-cookies/cookies';
 
 interface HomeScreenProps {
   navigation: MainNavigation;

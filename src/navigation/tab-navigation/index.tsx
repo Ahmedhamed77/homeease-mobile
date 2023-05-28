@@ -7,6 +7,7 @@ import {MainStack} from '../main-stack';
 
 import {Ionicons} from '@expo/vector-icons';
 import {ProfileStack} from '../profile-stack';
+import {ChoresStack} from '../chores-stack';
 
 const Tab = createBottomTabNavigator<TabParamList>();
 
@@ -28,6 +29,17 @@ export const TabNavigation = () => {
           title: 'main',
           tabBarIcon: ({color}: {color: string}) => (
             <Ionicons name="home" size={24} color={color} />
+          ),
+        })}
+      />
+
+      <Tab.Screen
+        name={TabParams.ChoresStack}
+        component={ChoresStack}
+        options={({}) => ({
+          title: 'Chores',
+          tabBarIcon: ({color}: {color: string}) => (
+            <Ionicons name="md-person" size={24} color={color} />
           ),
         })}
       />

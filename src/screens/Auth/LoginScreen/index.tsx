@@ -21,10 +21,17 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
 
   const {setHasLoginToken} = usePersistedStore(state => state);
 
-  const {mutate: onLogin, isLoading} = useLoginUser();
+  const {mutate: onLogin, data, isLoading} = useLoginUser();
 
+  // odillmann@axadvisory.com
+  // Zaracoco123
+
+  console.log(data, '----data');
   const onPressLogin = () => {
-    onLogin({email, password}, {onSuccess: () => setHasLoginToken(true)});
+    onLogin(
+      {email: 'odillmann@axadvisory.com', password: 'Zaracoco123'},
+      {onSuccess: () => setHasLoginToken(true)},
+    );
   };
 
   return (
