@@ -3,11 +3,12 @@ import {endpoints} from '../endpoints';
 import {LoginPayload} from './types';
 
 export const loginUser = async (payload: LoginPayload) => {
+  const {data} = await axios.get(endpoints.csrf);
   const res = await axios.post(endpoints.login, {
     ...payload,
     json: 'true',
+    csrfToken: data.csrfToken,
   });
 
-  console.log(res, '-----res');
   return res.data;
 };

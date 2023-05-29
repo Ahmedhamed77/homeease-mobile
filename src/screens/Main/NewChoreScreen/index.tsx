@@ -80,7 +80,6 @@ export const NewChoreScreen: React.FC<NewChoreScreenProps> = ({navigation}) => {
         <View style={styles.usersContent}>
           {countries.map((item, index) => {
             const isSelected = item === selectedChore;
-            console.log(isSelected, '---isSelected');
             return (
               <Pressable
                 key={index}

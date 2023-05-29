@@ -12,12 +12,14 @@ export enum TabParams {
   MainStack = 'MainStack',
   ProfileStack = 'ProfileStack',
   ChoresStack = 'ChoresStack',
+  PaymentStack = 'PaymentStack',
 }
 export type TabParamList = {
   [TabParams.MainStack]: NO_PARAMS;
   [TabParams.ProfileStack]: NO_PARAMS;
 
   [TabParams.ChoresStack]: NO_PARAMS;
+  [TabParams.PaymentStack]: NO_PARAMS;
 };
 
 export type TabRootNavigation = CompositeNavigationProp<

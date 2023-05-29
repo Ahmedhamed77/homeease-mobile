@@ -4,4 +4,7 @@ export const MutationKeys = {
   userLogin: [endpoints.login],
 };
 
-export const QueryKeys = {};
+export const QueryKeys = {
+  getUserSession: [endpoints.session],
+  // getUserChores:[endpoints.]
+};
