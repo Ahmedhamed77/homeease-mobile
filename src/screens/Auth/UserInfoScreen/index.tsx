@@ -19,12 +19,12 @@ export const UserInfoScreen: React.FC<UserInfoScreenProps> = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={{flex: 1, paddingHorizontal: 24}}>
-        <Pressable onPress={onGoBack} style={{marginBottom: 32}}>
-          <AntDesign name="arrowleft" size={24} color="black" />
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <Pressable onPress={onGoBack} style={styles.goBackButton}>
+          <AntDesign name="arrowleft" style={styles.arrowStyle} />
         </Pressable>
-        <View style={{marginBottom: 32}}>
-          <CustomText h1 style={{paddingBottom: 12}}>
+        <View style={styles.contentContainer}>
+          <CustomText h1 style={styles.textAllign}>
             Welcome!
           </CustomText>
           <CustomText textDefault>
@@ -36,18 +36,9 @@ export const UserInfoScreen: React.FC<UserInfoScreenProps> = ({navigation}) => {
         <TextInput
           label="First name"
           placeholder="Enter your first name"
-          style={{
-            backgroundColor: 'transparent',
-          }}
-          contentStyle={{
-            borderRadius: 16,
-            borderColor: '#ABABAB',
-            borderWidth: 1,
-            marginBottom: 12,
-          }}
-          underlineStyle={{
-            backgroundColor: 'transparent',
-          }}
+          style={styles.textBackgroundColor}
+          contentStyle={styles.firstNameContentStyle}
+          underlineStyle={styles.underlineStyle}
           defaultValue={firstName}
           onChangeText={setFirstName}
           maxLength={20}
@@ -56,17 +47,10 @@ export const UserInfoScreen: React.FC<UserInfoScreenProps> = ({navigation}) => {
         <TextInput
           label="Last name"
           placeholder="Enter your Last name"
-          style={{
-            backgroundColor: 'transparent',
-          }}
-          contentStyle={{
-            borderRadius: 16,
-            borderColor: '#ABABAB',
-            borderWidth: 1,
-          }}
-          underlineStyle={{
-            backgroundColor: 'transparent',
-          }}
+          style={styles.textBackgroundColor}
+          contentStyle={styles.lastNameContentStyle}
+          secureTextEntry
+          underlineStyle={styles.underlineStyle}
           defaultValue={lastName}
           onChangeText={setLastName}
           maxLength={20}
@@ -77,7 +61,7 @@ export const UserInfoScreen: React.FC<UserInfoScreenProps> = ({navigation}) => {
         mode="contained"
         onPress={onGoToUserCredentials}
         // disabled={!isValidInputs}
-        style={{marginVertical: 32, marginHorizontal: 16}}
+        style={styles.btnStyle}
         contentStyle={{}}>
         Next
       </Button>

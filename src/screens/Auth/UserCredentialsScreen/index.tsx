@@ -19,13 +19,13 @@ export const UserCredentialsScreen: React.FC<UserCredentialsScreenProps> = ({
   const onGoToLogin = () => navigation.navigate('Login');
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <ScrollView contentContainerStyle={{flexGrow: 1, paddingHorizontal: 24}}>
-        <Pressable onPress={onGoBack} style={{marginBottom: 24}}>
-          <AntDesign name="arrowleft" size={24} color="black" />
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <Pressable onPress={onGoBack} style={styles.goBackBtn}>
+          <AntDesign name="arrowleft" style={styles.arrowStyle} />
         </Pressable>
-        <View style={{marginBottom: 18}}>
-          <CustomText h2 style={{paddingBottom: 12}}>
+        <View style={styles.contentContainer}>
+          <CustomText h2 style={styles.textAllign}>
             Enter email and password
           </CustomText>
 
@@ -38,18 +38,9 @@ export const UserCredentialsScreen: React.FC<UserCredentialsScreenProps> = ({
         <TextInput
           label="Email"
           placeholder="Enter your Email"
-          style={{
-            backgroundColor: 'transparent',
-          }}
-          contentStyle={{
-            borderRadius: 16,
-            borderColor: '#ABABAB',
-            borderWidth: 1,
-            marginBottom: 12,
-          }}
-          underlineStyle={{
-            backgroundColor: 'transparent',
-          }}
+          style={styles.textBackgroundColor}
+          contentStyle={styles.emailContentStyle}
+          underlineStyle={styles.underlineStyle}
           defaultValue={email}
           onChangeText={setEmail}
         />
@@ -57,18 +48,10 @@ export const UserCredentialsScreen: React.FC<UserCredentialsScreenProps> = ({
         <TextInput
           label="Password"
           placeholder="Enter your Password"
-          style={{
-            backgroundColor: 'transparent',
-          }}
-          contentStyle={{
-            borderRadius: 16,
-            borderColor: '#ABABAB',
-            borderWidth: 1,
-          }}
+          style={styles.textBackgroundColor}
+          contentStyle={styles.passwordContentStyle}
           secureTextEntry
-          underlineStyle={{
-            backgroundColor: 'transparent',
-          }}
+          underlineStyle={styles.underlineStyle}
           defaultValue={password}
           onChangeText={setPassword}
           maxLength={20}
@@ -79,7 +62,7 @@ export const UserCredentialsScreen: React.FC<UserCredentialsScreenProps> = ({
         mode="contained"
         onPress={onGoToLogin}
         // disabled={!isValidInputs}
-        style={{marginVertical: 32, marginHorizontal: 16}}
+        style={styles.btnStyle}
         contentStyle={{}}>
         Next
       </Button>
