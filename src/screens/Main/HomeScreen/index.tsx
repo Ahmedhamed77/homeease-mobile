@@ -8,14 +8,18 @@ import {
   MainParams,
 } from '../../../navigation/main-stack/interface';
 import {styles} from './style';
-import CookieManager from '@react-native-cookies/cookies';
-
+import {useGetUserSession} from '../../../shared/hooks/react-query/queries/useGetUserSession';
+import _ from 'lodash';
 interface HomeScreenProps {
   navigation: MainNavigation;
 }
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const onJoinHouse = () => navigation.navigate(MainParams.JoinHouse);
+
+  const {data: _data} = useGetUserSession();
+
+  console.log(_data, '---_data');
 
   return (
     <SafeAreaView style={styles.container}>

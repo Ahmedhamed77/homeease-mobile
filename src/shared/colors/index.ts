@@ -17,6 +17,7 @@ export enum COLORS {
   azure = '#0043A4',
   paleGrey = '#e6e6e6',
   lightGreen = '#41b619',
+  green = '#5a9e5d',
   smoke = '#F2F2F2',
   cyan = '#E3F3FC',
   black = '#000000',

@@ -13,8 +13,29 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     padding: 12,
     borderRadius: 12,
+    marginBottom: 8,
+  },
+  sectionListContentContainer: {
+    paddingHorizontal: 16,
   },
   textSpace: {
     paddingBottom: 12,
+  },
+  viewCenter: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  renderItemContent: {
+    backgroundColor: COLORS.white,
+    padding: 12,
+    borderRadius: 12,
+    marginBottom: 12,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  userInfoContent: {
+    flexDirection: 'row',
   },
 });
