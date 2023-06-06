@@ -3,8 +3,8 @@ import {StackNavigationProp} from '@react-navigation/stack';
 export type NO_PARAMS = undefined;
 
 export enum PaymentParams {
-  Payment = 'Chores',
-  NewPayment = 'NewChore',
+  Payment = 'Payment',
+  NewPayment = 'NewPayment',
 }
 
 export type PaymentParamsList = {

@@ -7,4 +7,5 @@ export const MutationKeys = {
 export const QueryKeys = {
   getUserSession: [endpoints.session],
   getUserChores: [endpoints.houses],
+  getPayments: [endpoints.houses],
 };

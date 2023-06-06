@@ -19,8 +19,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
 
   const {data: _data} = useGetUserSession();
 
-  console.log(_data, '---_data');
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
