@@ -1,6 +1,23 @@
+import { Status } from "../../../shared/types";
+
 export type Payments = {
   payments: Payment[];
 };
+
+export type AddPaymentPayload = {
+  amount: number;
+  status?: Status;
+  payerId: string;
+  description: string;
+  recipientId: string;
+  createdAt: Date;
+}
+
+export type UpdatePaymentPayload = {
+  amount?: number;
+  description?: string;
+  status?: Status;
+}
 
 export type Payment = {
   amount: number;

@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
-import {Pressable, ScrollView, View} from 'react-native';
-import {styles} from './style';
-import {COLORS} from '../../../shared/colors';
-import {CustomText} from '../../../shared/ui';
-import {Button, TextInput} from 'react-native-paper';
+import React, { useState } from 'react';
+import { Pressable, ScrollView, View } from 'react-native';
+import { styles } from './style';
+import { COLORS } from '../../../shared/colors';
+import { CustomText } from '../../../shared/ui';
+import { Button, TextInput } from 'react-native-paper';
 
 import moment from 'moment';
 
@@ -11,7 +11,7 @@ import DateTimePicker, {
   DateTimePickerEvent,
 } from '@react-native-community/datetimepicker';
 
-import {PaymentNavigation} from '../../../navigation/payment-stack/interface';
+import { PaymentNavigation } from '../../../navigation/payment-stack/interface';
 
 const payers = ['Omar Daleen', 'Ahmed Aasi', 'Mohammad Daleen', 'Ahmed Salahi'];
 interface NewPaymentScreenType {
@@ -25,7 +25,6 @@ export const NewPaymentScreen: React.FC<NewPaymentScreenType> = ({
 
   const [description, setDescription] = useState('');
   const [selectedPayers, setSelectedPayers] = useState<string[]>([]);
-  console.log(selectedPayers, 'selectedPayers');
   const sourceMoment = moment.unix(1636797600);
   const sourceDate = sourceMoment.local().toDate();
   const [paymentDate, setPaymentDate] = useState(sourceDate);
@@ -40,6 +39,7 @@ export const NewPaymentScreen: React.FC<NewPaymentScreenType> = ({
 
   const onSelectedPayers = (selectedItem: string) => {
     const isExist = selectedPayers.some(item => item === selectedItem);
+    console.log(selectedPayers, 'selectedPayers');
     console.log(isExist);
     if (!isExist) {
       setSelectedPayers(prev => [...prev, selectedItem]);
@@ -71,7 +71,7 @@ export const NewPaymentScreen: React.FC<NewPaymentScreenType> = ({
           />
         </View>
 
-        <CustomText subtitle>Describe WHat You Want</CustomText>
+        <CustomText subtitle>Describe What You Want</CustomText>
         <View style={styles.usersContent}>
           <TextInput
             label="Description"
@@ -96,7 +96,7 @@ export const NewPaymentScreen: React.FC<NewPaymentScreenType> = ({
             style={styles.pickerStyle}
             minimumDate={new Date()}
             collapsable
-            negativeButton={{label: 'Cancel', textColor: 'red'}}
+            negativeButton={{ label: 'Cancel', textColor: 'red' }}
           />
         </View>
         <CustomText subtitle style={styles.itemStyle}>
@@ -129,7 +129,7 @@ export const NewPaymentScreen: React.FC<NewPaymentScreenType> = ({
       <Button
         mode="contained"
         onPress={onAssignPayment}
-        style={{marginBottom: 32}}
+        style={{ marginBottom: 32 }}
         disabled={!amountPayment.length || !selectedPayers.length}>
         Assign Payment
       </Button>

@@ -1,10 +1,10 @@
-import {axios} from '../axios';
-import {endpoints} from '../endpoints';
-import {UserChoresAssignment} from './types';
+import { axios } from '../axios';
+import { endpoints } from '../endpoints';
+import { UserChoresAssignment } from './types';
 
-export const getUserChores = async (houseId: string) => {
+export const getUserChores = async ({ houseId }: { houseId: string }) => {
   console.log('here', houseId);
-  const {data} = await axios.get<UserChoresAssignment>(
+  const { data } = await axios.get<UserChoresAssignment>(
     `${endpoints.houses}/${houseId}/chores/assignment`,
   );
 

@@ -1,11 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
-import { LoginPayload, loginUser } from '../../../../services/ApiService/auth';
+import { updateUser } from '../../../../services/ApiService/auth/updateUser';
 import { MutationKeys } from '../../../../services/react-query';
 
-export const useLoginUser = () => {
+export const useUpdateUser = () => {
   //   const queryClient = useQueryClient();
-  return useMutation(loginUser, {
-    mutationKey: MutationKeys.userLogin,
+  return useMutation(updateUser, {
+    mutationKey: MutationKeys.updateUser,
     onMutate: async ({ payload }) => {
       console.log(payload, '---createDynamicScanCheck data');
     },

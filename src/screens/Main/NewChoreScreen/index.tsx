@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Pressable, ScrollView, View} from 'react-native';
+import React, { useState } from 'react';
+import { Pressable, ScrollView, View } from 'react-native';
 
 import moment from 'moment';
 
@@ -7,12 +7,12 @@ import DateTimePicker, {
   DateTimePickerEvent,
 } from '@react-native-community/datetimepicker';
 
-import {CustomText} from '../../../shared/ui';
+import { CustomText } from '../../../shared/ui';
 
-import {COLORS} from '../../../shared/colors';
-import {Button} from 'react-native-paper';
-import {ChoresNavigation} from '../../../navigation/chores-stack/interface';
-import {styles} from './style';
+import { COLORS } from '../../../shared/colors';
+import { Button } from 'react-native-paper';
+import { ChoresNavigation } from '../../../navigation/chores-stack/interface';
+import { styles } from './style';
 
 const countries = ['Egypt', 'Canada', 'Australia', 'Ireland'];
 
@@ -20,7 +20,7 @@ interface NewChoreScreenProps {
   navigation: ChoresNavigation;
 }
 
-export const NewChoreScreen: React.FC<NewChoreScreenProps> = ({navigation}) => {
+export const NewChoreScreen: React.FC<NewChoreScreenProps> = ({ navigation }) => {
   const [selectUser, setSelectedUser] = useState('');
   const [selectedChore, setSelectedChore] = useState('');
 
@@ -103,22 +103,22 @@ export const NewChoreScreen: React.FC<NewChoreScreenProps> = ({navigation}) => {
             Select Date
           </CustomText>
 
-          <DateTimePicker
+         {/* <DateTimePicker
             testID="dateTimePicker"
             value={choreDate}
             onChange={onChange}
             style={styles.pickerStyle}
             minimumDate={new Date()}
             collapsable
-            negativeButton={{label: 'Cancel', textColor: 'red'}}
-          />
+            negativeButton={{ label: 'Cancel', textColor: 'red' }}
+          />*/}
         </View>
       </View>
 
       <Button
         mode="contained"
         onPress={onAssignChore}
-        style={{marginBottom: 32}}
+        style={{ marginBottom: 32 }}
         disabled={!selectUser.length || !selectedChore.length}>
         Assign chore
       </Button>
