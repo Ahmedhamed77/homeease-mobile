@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
-import {ActivityIndicator, Pressable, ScrollView, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Platform,
+  Pressable,
+  ScrollView,
+  View,
+} from 'react-native';
 import {styles} from './style';
 import {COLORS} from '../../../shared/colors';
 import {CustomText} from '../../../shared/ui';
@@ -16,10 +22,9 @@ import {
   PaymentParams,
   PaymentParamsList,
 } from '../../../navigation/payment-stack/interface';
-import {useGetHouse} from '../../../shared/hooks/react-query/queries/useGetHouse';
 import {RouteProp} from '@react-navigation/native';
+import {usePersistedStore} from '../../../services/Store/store';
 
-const payers = ['Omar Daleen', 'Ahmed Aasi', 'Mohammad Daleen', 'Ahmed Salahi'];
 interface NewPaymentScreenType {
   navigation: PaymentNavigation;
   route: RouteProp<PaymentParamsList, PaymentParams.NewPayment>;
@@ -29,22 +34,25 @@ export const NewPaymentScreen: React.FC<NewPaymentScreenType> = ({
   navigation,
   route,
 }) => {
-  const {houseId} = route.params;
   const [amountPayment, setAmountPayment] = useState('');
+
+  const {userHouse} = usePersistedStore(state => state);
+
+  const [showPicker, setShowPicker] = useState(false);
 
   const [description, setDescription] = useState('');
   const [selectedPayers, setSelectedPayers] = useState<string[]>([]);
-  const sourceMoment = moment.unix(1636797600);
-  const sourceDate = sourceMoment.local().toDate();
+  const sourceDate = new Date();
   const [paymentDate, setPaymentDate] = useState(sourceDate);
-
-  const {data: userHouse, isLoading} = useGetHouse(houseId);
 
   const onChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
     if (event.type === 'neutralButtonPressed') {
       setPaymentDate(new Date(0));
+
+      setShowPicker(false);
     } else {
       selectedDate && setPaymentDate(selectedDate);
+      setShowPicker(false);
     }
   };
 
@@ -64,18 +72,6 @@ export const NewPaymentScreen: React.FC<NewPaymentScreenType> = ({
     // api here
   };
 
-  if (isLoading) {
-    return (
-      <ActivityIndicator
-        color={COLORS.primary}
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      />
-    );
-  }
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.contentContainer}>
@@ -115,15 +111,39 @@ export const NewPaymentScreen: React.FC<NewPaymentScreenType> = ({
             Select Date
           </CustomText>
 
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={paymentDate}
-            onChange={onChange}
-            style={styles.pickerStyle}
-            minimumDate={new Date()}
-            collapsable
-            negativeButton={{label: 'Cancel', textColor: 'red'}}
-          />
+          {Platform.OS === 'android' ? (
+            <View>
+              <Pressable
+                onPress={() => setShowPicker(true)}
+                style={styles.pickerTextContainer}>
+                <CustomText textDefault style={{textAlign: 'center'}}>
+                  {moment(paymentDate).format('YYYY-MM-DD')}
+                </CustomText>
+              </Pressable>
+
+              {showPicker && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={paymentDate}
+                  onChange={onChange}
+                  style={styles.pickerStyle}
+                  minimumDate={new Date()}
+                  collapsable
+                  negativeButton={{label: 'Cancel', textColor: 'red'}}
+                />
+              )}
+            </View>
+          ) : (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={paymentDate}
+              onChange={onChange}
+              style={styles.pickerStyle}
+              minimumDate={new Date()}
+              collapsable
+              negativeButton={{label: 'Cancel', textColor: 'red'}}
+            />
+          )}
         </View>
         <CustomText subtitle style={styles.itemStyle}>
           Select Payers Name

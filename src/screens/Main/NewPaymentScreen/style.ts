@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {COLORS} from '../../../shared/colors';
 
 export const styles = StyleSheet.create({
   container: {
@@ -43,5 +44,13 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 24,
+  },
+
+  pickerTextContainer: {
+    backgroundColor: COLORS.melrose,
+    borderRadius: 12,
+    padding: 12,
+    width: 150,
+    alignSelf: 'center',
   },
 });

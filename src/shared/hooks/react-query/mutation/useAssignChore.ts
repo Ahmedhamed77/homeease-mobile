@@ -14,7 +14,7 @@ export const useAssignChore = () => {
 
   return useMutation(assignChore, {
     mutationKey: MutationKeys.assignChore,
-    onMutate: async ({payload}) => {},
+    onMutate: async ({}) => {},
     onSuccess: (_data, params) => {
       queryClient.invalidateQueries([QueryKeys.getUserChores, params.houseId]);
       navigation.goBack();

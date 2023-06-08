@@ -64,7 +64,7 @@ export const ChoresScreen: React.FC<ChoresScreenProps> = ({navigation}) => {
 
   const listHeaderComponent = () => {
     return (
-      <View>
+      <View style={{marginTop: 32}}>
         <View style={styles.choresHeaderContent}>
           <CustomText textArticle>
             chore is a duty for all of us in house

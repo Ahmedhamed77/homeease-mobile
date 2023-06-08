@@ -15,11 +15,10 @@ export const assignChore = async (params: AssignChoreParams) => {
     choreId: params.payload.choreId,
     dueDate: new Date(params.payload.dueDate),
   };
-  const {data} = await axios.post<{choreAssignment: ChoreAssignment}>(
+  const res = await axios.post<{choreAssignment: ChoreAssignment}>(
     `${endpoints.houses}/${params.houseId}/chores/assignment`,
     payload,
   );
-  console.log(data);
 
-  return data.choreAssignment;
+  return res.data.choreAssignment;
 };

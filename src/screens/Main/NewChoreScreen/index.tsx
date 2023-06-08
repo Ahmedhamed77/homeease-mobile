@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Pressable, ScrollView, View} from 'react-native';
+import {Platform, Pressable, ScrollView, View} from 'react-native';
 
 import moment from 'moment';
 
@@ -35,27 +35,31 @@ export const NewChoreScreen: React.FC<NewChoreScreenProps> = ({
   const {houseId} = route.params;
 
   const {userHouse} = usePersistedStore();
-  console.log(houseId, '---userId');
   const [selectUser, setSelectedUser] = useState('');
   const [selectedChore, setSelectedChore] = useState('');
+
+  const [showPicker, setShowPicker] = useState(false);
+
+  const isAndroid = Platform.OS === 'android';
 
   const {mutate: assignChore, isLoading: assignChoreLoading} = useAssignChore();
 
   const {data: userChores, isLoading: userChoresLoading} =
     useGetUserChores(houseId);
 
-  console.log(userChores, '---userChores');
-
-  const sourceMoment = moment.unix(1636797600);
-  const sourceDate = sourceMoment.local().toDate();
+  const sourceDate = new Date();
   const [choreDate, setChoreDate] = useState(sourceDate);
 
   const onChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
     if (event.type === 'neutralButtonPressed') {
-      setChoreDate(new Date(0));
+      selectedDate && setChoreDate(selectedDate);
+      setShowPicker(false);
     } else {
       selectedDate && setChoreDate(selectedDate);
+      setShowPicker(false);
     }
+
+    setShowPicker(false);
   };
 
   const onSelectedItemsChange = (selectedItem: string) =>
@@ -85,7 +89,6 @@ export const NewChoreScreen: React.FC<NewChoreScreenProps> = ({
     return null;
   }
 
-  console.log(userHouse, '---userHouse');
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.contentContainer}>
@@ -154,15 +157,34 @@ export const NewChoreScreen: React.FC<NewChoreScreenProps> = ({
             Select Date
           </CustomText>
 
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={choreDate}
-            onChange={onChange}
-            style={styles.pickerStyle}
-            minimumDate={new Date()}
-            collapsable
-            negativeButton={{label: 'Cancel', textColor: 'red'}}
-          />
+          {isAndroid ? (
+            <>
+              <Pressable
+                style={styles.pickerTextContainer}
+                onPress={() => setShowPicker(true)}>
+                <CustomText style={{color: COLORS.dark, textAlign: 'center'}}>
+                  {moment(choreDate).format('YYYY-MM-DD')}
+                </CustomText>
+              </Pressable>
+
+              {showPicker && (
+                <DateTimePicker
+                  value={choreDate}
+                  onChange={onChange}
+                  style={styles.pickerStyle}
+                  minimumDate={new Date()}
+                  negativeButton={{label: 'Cancel', textColor: 'red'}}
+                />
+              )}
+            </>
+          ) : (
+            <DateTimePicker
+              value={choreDate}
+              onChange={onChange}
+              style={styles.pickerStyle}
+              minimumDate={new Date()}
+            />
+          )}
         </View>
       </View>
 
