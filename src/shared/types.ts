@@ -1,7 +1,7 @@
-export type Status = {
-  Pending: 'Pending',
-  Completed: 'Completed',
-  Cancelled: 'Cancelled'
+export enum Status {
+  Pending = 'Pending',
+  Completed = 'Completed',
+  Cancelled = 'Cancelled',
 }
 
 export type User = {

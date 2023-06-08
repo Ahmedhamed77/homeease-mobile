@@ -76,9 +76,6 @@ export const NewChoreScreen: React.FC<NewChoreScreenProps> = ({
     });
   };
 
-  const onAddNewChoreCategory = () =>
-    navigation.navigate(ChoresParams.NewCategory);
-
   if (userChoresLoading) {
     return (
       <ActivityIndicator color={COLORS.primary} style={styles.viewCenter} />
@@ -145,11 +142,11 @@ export const NewChoreScreen: React.FC<NewChoreScreenProps> = ({
             );
           })}
 
-          <Pressable style={{}} onPress={onAddNewChoreCategory}>
+          {/* <Pressable style={{}} onPress={onAddNewChoreCategory}>
             <CustomText textDefault style={{color: COLORS.primary}}>
               Add new chore
             </CustomText>
-          </Pressable>
+          </Pressable> */}
         </View>
 
         <View style={styles.dateContainer}>

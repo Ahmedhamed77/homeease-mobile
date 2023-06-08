@@ -7,11 +7,11 @@ interface AddPaymentParams {
   payload: AddPaymentPayload[];
 }
 
-export const addPayment = async ({houseId, payload}: AddPaymentParams) => {
+export const addPayment = async (params: AddPaymentParams) => {
   //this returns the number of records created
   const {data} = await axios.post<{count: number; message: string}>(
-    `${endpoints.houses}/${houseId}/payments`,
-    payload,
+    `${endpoints.houses}/${params.houseId}/payments`,
+    params.payload,
   );
 
   return data;

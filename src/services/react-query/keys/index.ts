@@ -11,17 +11,17 @@ export const MutationKeys = {
   updatePayment: [endpoints.houses],
   addPayment: [endpoints.houses],
   cancelPayment: [endpoints.houses],
-  createHouse: [endpoints.houses],
+  createHouse: [endpoints.houses, 'createHouse'],
   updateHouse: [endpoints.houses],
   deleteHouse: [endpoints.houses],
-  joinHouse: [endpoints.joinHouse],
+  joinHouse: [endpoints.joinHouse, 'joinHouse'],
 };
 
 export const QueryKeys = {
   getUserSession: [endpoints.session],
-  getUserChores: [endpoints.houses],
-  getPayments: [endpoints.houses],
-  getChore: [endpoints.houses],
-  getHouse: [endpoints.houses],
+  getUserChores: [endpoints.houses, 'userChores'],
+  getPayments: [endpoints.houses, 'payments'],
+  getChore: [endpoints.houses, 'chores'],
+  getHouse: [endpoints.houses, 'userHouse'],
   getUserInfo: [endpoints.users],
 };

@@ -43,7 +43,7 @@ export const ChoresScreen: React.FC<ChoresScreenProps> = ({navigation}) => {
 
     return (
       <View style={styles.renderItemContent}>
-        <View>
+        <View style={{width: 200}}>
           <CustomText textArticle>{item.Chore?.type}</CustomText>
           <View style={styles.userInfoContent}>
             <CustomText textArticle>{item.User?.firstName} </CustomText>
@@ -53,11 +53,13 @@ export const ChoresScreen: React.FC<ChoresScreenProps> = ({navigation}) => {
           <CustomText textArticle>{item.Chore?.description}</CustomText>
         </View>
 
-        <CustomText
-          textArticle
-          style={{color: isCompleted ? COLORS.green : COLORS.dark_red}}>
-          {item.status}
-        </CustomText>
+        <View style={{}}>
+          <CustomText
+            textArticle
+            style={{color: isCompleted ? COLORS.green : COLORS.dark_red}}>
+            {item.status}
+          </CustomText>
+        </View>
       </View>
     );
   };

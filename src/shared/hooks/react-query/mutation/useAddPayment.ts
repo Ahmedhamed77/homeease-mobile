@@ -1,17 +1,23 @@
-import { useMutation } from '@tanstack/react-query';
-import { addPayment } from '../../../../services/ApiService/payment';
-import { MutationKeys } from '../../../../services/react-query';
+import {useMutation} from '@tanstack/react-query';
+import {addPayment} from '../../../../services/ApiService/payment';
+import {
+  MutationKeys,
+  QueryKeys,
+  queryClient,
+} from '../../../../services/react-query';
+import {useNavigation} from '@react-navigation/native';
 
 export const useAddPayment = () => {
-  //   const queryClient = useQueryClient();
+  const navigation = useNavigation();
   return useMutation(addPayment, {
     mutationKey: MutationKeys.addPayment,
-    onMutate: async ({ payload }) => {
-      console.log(payload, '---createDynamicScanCheck payload');
+    onSuccess: (_data, params) => {
+      queryClient.invalidateQueries([QueryKeys.getPayments, params.houseId]);
+      navigation.goBack();
     },
     onError: err => {
       console.log(err, '------error------');
     },
-    onSettled: () => { },
+    onSettled: () => {},
   });
 };

@@ -6,6 +6,8 @@ import {CustomText} from '../../../shared/ui';
 import {AntDesign} from '@expo/vector-icons';
 import {Button, TextInput} from 'react-native-paper';
 import {MainNavigation} from '../../../navigation/main-stack/interface';
+import {useCreateHouse} from '../../../shared/hooks/react-query/mutation/useCreateHouse';
+import {useJoinHouse} from '../../../shared/hooks/react-query/mutation/useJoinHouse';
 
 interface JoinHouseScreenType {
   navigation: MainNavigation;
@@ -14,10 +16,23 @@ interface JoinHouseScreenType {
 export const JoinHouseScreen: React.FC<JoinHouseScreenType> = ({
   navigation,
 }) => {
+  const {mutate: createHouse, isLoading} = useCreateHouse();
+
+  const {mutate: joinHouse} = useJoinHouse();
   const [houseName, setHouseName] = useState('');
   const [invitationCode, setInvitationCode] = useState('');
 
   const onGoBack = () => navigation.goBack();
+
+  const onCreateHouse = () => {
+    createHouse({name: houseName});
+  };
+
+  const onJoinHouse = () => {
+    joinHouse({invitationCode: invitationCode});
+  };
+
+  const isHouseNameHas3Chars = houseName.length >= 3;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -39,14 +54,18 @@ export const JoinHouseScreen: React.FC<JoinHouseScreenType> = ({
             placeholder="Enter your house title"
             style={styles.inputStyle}
             contentStyle={[styles.inputContentStyle, styles.inputSpace]}
-            secureTextEntry
             underlineStyle={styles.inputUnderlineStyle}
             defaultValue={houseName}
             onChangeText={setHouseName}
             maxLength={20}
           />
 
-          <Button mode="contained" style={styles.inputSpace}>
+          <Button
+            mode="contained"
+            loading={isLoading}
+            disabled={!isHouseNameHas3Chars}
+            onPress={onCreateHouse}
+            style={styles.inputSpace}>
             Create
           </Button>
 
@@ -64,7 +83,12 @@ export const JoinHouseScreen: React.FC<JoinHouseScreenType> = ({
             onChangeText={setInvitationCode}
             maxLength={20}
           />
-          <Button mode="contained">Get invitation link</Button>
+          <Button
+            mode="contained"
+            disabled={!invitationCode.length}
+            onPress={onJoinHouse}>
+            Join house
+          </Button>
         </View>
       </ScrollView>
     </SafeAreaView>

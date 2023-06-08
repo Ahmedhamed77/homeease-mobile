@@ -14,28 +14,28 @@ import {
   PaymentNavigation,
   PaymentParams,
 } from '../../../navigation/payment-stack/interface';
-import {
-  useGetPayments,
-  useGetUserSession,
-} from '../../../shared/hooks/react-query/queries';
+import {useGetPayments} from '../../../shared/hooks/react-query/queries';
 import {Payment} from '../../../services/ApiService/payment/types';
 import moment from 'moment';
 import {COLORS} from '../../../shared/colors';
+import {usePersistedStore} from '../../../services/Store/store';
 
 interface PaymentScreenType {
   navigation: PaymentNavigation;
 }
 
 export const PaymentScreen: React.FC<PaymentScreenType> = ({navigation}) => {
-  const {data: session, isLoading: sessionLoading} = useGetUserSession();
-
-  const {data: payments, isLoading: paymentsLoading} = useGetPayments(
-    session?.user?.houseId || '',
-  );
+  const {userSession} = usePersistedStore(state => state);
+  const {
+    data: payments,
+    isLoading: paymentsLoading,
+    refetch,
+    isRefetching,
+  } = useGetPayments(userSession.user.houseId);
 
   console.log(payments, '---payments');
 
-  if (sessionLoading || paymentsLoading) {
+  if (paymentsLoading) {
     return (
       <ActivityIndicator color={COLORS.primary} style={styles.viewCenter} />
     );
@@ -47,7 +47,7 @@ export const PaymentScreen: React.FC<PaymentScreenType> = ({navigation}) => {
 
   const onAssignNewPayment = () =>
     navigation.navigate(PaymentParams.NewPayment, {
-      houseId: session?.user?.houseId || '',
+      houseId: userSession.user.houseId,
     });
 
   const renderPayment: ListRenderItem<Payment> = ({item}) => {
@@ -115,6 +115,8 @@ export const PaymentScreen: React.FC<PaymentScreenType> = ({navigation}) => {
         renderItem={renderPayment}
         ListEmptyComponent={listEmptyComponent}
         contentContainerStyle={styles.scrollContainer}
+        refreshing={isRefetching}
+        onRefresh={refetch}
       />
     </SafeAreaView>
   );

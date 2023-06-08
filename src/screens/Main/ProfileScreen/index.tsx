@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {styles} from './style';
 import {ActivityIndicator, SafeAreaView, ScrollView, View} from 'react-native';
@@ -15,6 +15,8 @@ export const ProfileScreen: React.FC<ProfileScreenType> = () => {
     store => store,
   );
 
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
+
   const {userSession, userHouse} = usePersistedStore(state => state);
 
   const onLogout = () => {
@@ -28,6 +30,10 @@ export const ProfileScreen: React.FC<ProfileScreenType> = () => {
   const {data: userInfo, isLoading: userInfoLoading} = useGetUserInfo(
     userSession.user.id,
   );
+
+  const onToggleSwitch = () => {
+    setIsDarkTheme(!isDarkTheme);
+  };
 
   if (userInfoLoading) {
     return (
@@ -60,9 +66,6 @@ export const ProfileScreen: React.FC<ProfileScreenType> = () => {
 
             <CustomText textArticle>Email</CustomText>
             <CustomText subtitle2>{userInfo.email}</CustomText>
-
-            <CustomText textArticle>Password</CustomText>
-            <CustomText subtitle2>********</CustomText>
           </View>
         )}
 
@@ -96,7 +99,7 @@ export const ProfileScreen: React.FC<ProfileScreenType> = () => {
                       style={{flexDirection: 'row', marginBottom: 12}}>
                       <View
                         style={{
-                          backgroundColor: 'red',
+                          backgroundColor: COLORS.melrose,
                           borderRadius: 50,
                           flexDirection: 'row',
                           width: 35,
@@ -118,7 +121,6 @@ export const ProfileScreen: React.FC<ProfileScreenType> = () => {
                   );
                 })}
             </View>
-            <Button textColor="red">Leave house</Button>
           </View>
         )}
 

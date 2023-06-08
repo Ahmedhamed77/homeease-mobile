@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContainer: {
-    flex: 1,
+    flexGrow: 1,
     paddingHorizontal: 16,
   },
   paymentHeaderContent: {
