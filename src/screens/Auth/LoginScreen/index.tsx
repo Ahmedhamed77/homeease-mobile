@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Pressable, SafeAreaView, ScrollView, View} from 'react-native';
+import {Alert, Pressable, SafeAreaView, ScrollView, View} from 'react-native';
 
 import {styles} from './style';
 import {CustomText} from '../../../shared/ui';
@@ -31,26 +31,42 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
   // odillmann@axadvisory.com
   // Zaracoco123
 
+  const validateEmail = () => {
+    // Regular expression for email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isValid = emailRegex.test(email);
+
+    if (!isValid) {
+      Alert.alert('Invalid Email', 'Please enter a valid email address.');
+      return false;
+    }
+    return true;
+  };
+
   console.log(data, '----data');
   const onPressLogin = () => {
-    onLogin(
-      {payload: {email: 'odillmann@axadvisory.com', password: 'Zaracoco123'}},
-      {
-        onSuccess: async () => {
-          try {
-            const session = await getUserSession();
-            setUserSession(session);
+    if (true) {
+      onLogin(
+        {payload: {email: 'ahmedhamed7728@gmail.com', password: '12345678'}},
+        {
+          onSuccess: async () => {
+            try {
+              const session = await getUserSession();
+              setUserSession(session);
 
-            const user_house = await getHouse({houseId: session.user.houseId});
-            setUserHouse(user_house);
+              const user_house = await getHouse({
+                houseId: session.user.houseId,
+              });
+              setUserHouse(user_house);
 
-            setHasLoginToken(true);
-          } catch (error) {
-            console.log('error with login');
-          }
+              setHasLoginToken(true);
+            } catch (error) {
+              console.log('error with login');
+            }
+          },
         },
-      },
-    );
+      );
+    }
   };
 
   return (
@@ -71,12 +87,14 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
         <TextInput
           label="Email"
           placeholder="Enter your email"
+          autoCapitalize="none"
+          keyboardType="email-address"
+          autoComplete="email"
           style={styles.inputStyle}
           contentStyle={[styles.inputContentStyle, styles.inputSpace]}
           underlineStyle={styles.inputUnderline}
           defaultValue={email}
           onChangeText={setEmail}
-          maxLength={20}
         />
 
         <TextInput

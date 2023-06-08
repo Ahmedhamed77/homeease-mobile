@@ -7,6 +7,7 @@ import {Button} from 'react-native-paper';
 import {usePersistedStore} from '../../../services/Store/store';
 import {useGetUserInfo} from '../../../shared/hooks/react-query/queries';
 import {COLORS} from '../../../shared/colors';
+import {queryClient} from '../../../services/react-query';
 
 interface ProfileScreenType {}
 
@@ -24,6 +25,7 @@ export const ProfileScreen: React.FC<ProfileScreenType> = () => {
     setUserHouse({});
     // @ts-ignore
     setUserSession({});
+    queryClient.removeQueries();
     setHasLoginToken(false);
   };
 

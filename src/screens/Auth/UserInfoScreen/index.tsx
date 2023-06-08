@@ -6,16 +6,23 @@ import {AntDesign} from '@expo/vector-icons';
 import {styles} from './style';
 import {CustomText} from '../../../shared/ui';
 import {Button, TextInput} from 'react-native-paper';
+import {useStore} from '../../../services/Store/store';
 
 interface UserInfoScreenProps {}
 
 export const UserInfoScreen: React.FC<UserInfoScreenProps> = ({navigation}) => {
   const onGoBack = () => navigation.goBack();
 
+  const {setUserInfo} = useStore(state => state);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
 
-  const onGoToUserCredentials = () => navigation.navigate('UserCredentials');
+  const onGoToUserCredentials = () => {
+    setUserInfo({first_name: firstName, last_name: lastName});
+    navigation.navigate('UserCredentials');
+  };
+
+  const isValidInputs = firstName.length > 3 && lastName.length > 3;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -76,7 +83,7 @@ export const UserInfoScreen: React.FC<UserInfoScreenProps> = ({navigation}) => {
       <Button
         mode="contained"
         onPress={onGoToUserCredentials}
-        // disabled={!isValidInputs}
+        disabled={!isValidInputs}
         style={{marginVertical: 32, marginHorizontal: 16}}
         contentStyle={{}}>
         Next
