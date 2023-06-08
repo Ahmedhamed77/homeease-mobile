@@ -46,23 +46,23 @@ export const TabNavigation = () => {
       />
 
       <Tab.Screen
-        name={TabParams.ProfileStack}
-        component={ProfileStack}
-        options={({}) => ({
-          title: 'Profile',
-          tabBarIcon: ({color}: {color: string}) => (
-            <Ionicons name="md-person" size={24} color={color} />
-          ),
-        })}
-      />
-
-      <Tab.Screen
         name={TabParams.PaymentStack}
         component={PaymentStack}
         options={({}) => ({
           title: 'Payment',
           tabBarIcon: ({color}: {color: string}) => (
             <Ionicons name="wallet" size={24} color={color} />
+          ),
+        })}
+      />
+
+      <Tab.Screen
+        name={TabParams.ProfileStack}
+        component={ProfileStack}
+        options={({}) => ({
+          title: 'Profile',
+          tabBarIcon: ({color}: {color: string}) => (
+            <Ionicons name="md-person" size={24} color={color} />
           ),
         })}
       />

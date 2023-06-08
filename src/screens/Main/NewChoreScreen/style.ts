@@ -29,4 +29,9 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 24,
   },
+  viewCenter: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

@@ -1,4 +1,4 @@
-import { Status } from "../../../shared/types";
+import {Status} from '../../../shared/types';
 
 export type Payments = {
   payments: Payment[];
@@ -11,13 +11,13 @@ export type AddPaymentPayload = {
   description: string;
   recipientId: string;
   createdAt: Date;
-}
+};
 
 export type UpdatePaymentPayload = {
   amount?: number;
   description?: string;
   status?: Status;
-}
+};
 
 export type Payment = {
   amount: number;

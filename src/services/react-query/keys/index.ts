@@ -1,4 +1,4 @@
-import { endpoints } from '../../ApiService/endpoints';
+import {endpoints} from '../../ApiService/endpoints';
 
 export const MutationKeys = {
   verifyEmail: [endpoints.email],
@@ -14,7 +14,7 @@ export const MutationKeys = {
   createHouse: [endpoints.houses],
   updateHouse: [endpoints.houses],
   deleteHouse: [endpoints.houses],
-  joinHouse: [endpoints.joinHouse]
+  joinHouse: [endpoints.joinHouse],
 };
 
 export const QueryKeys = {
@@ -23,4 +23,5 @@ export const QueryKeys = {
   getPayments: [endpoints.houses],
   getChore: [endpoints.houses],
   getHouse: [endpoints.houses],
+  getUserInfo: [endpoints.users],
 };

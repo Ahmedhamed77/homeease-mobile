@@ -5,3 +5,4 @@ export * from './ChoresScreen';
 export * from './NewChoreScreen';
 export * from './PaymentScreen';
 export * from './NewPaymentScreen';
+export * from './NewChoreCategoryScreen';

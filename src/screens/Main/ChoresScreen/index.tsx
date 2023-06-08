@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 
 import {styles} from './style';
 import {
@@ -14,58 +14,43 @@ import {
   ChoresNavigation,
   ChoresParams,
 } from '../../../navigation/chores-stack/interface';
-import {
-  useGetUserChores,
-  useGetUserSession,
-} from '../../../shared/hooks/react-query/queries';
+import {useGetUserChores} from '../../../shared/hooks/react-query/queries';
 import _ from 'lodash';
 import {COLORS} from '../../../shared/colors';
 import {ChoreAssignment} from '../../../services/ApiService/chores/types';
 import {getSectionList} from '../../../shared/utils';
+import {usePersistedStore} from '../../../services/Store/store';
 
 interface ChoresScreenProps {
   navigation: ChoresNavigation;
 }
 
 export const ChoresScreen: React.FC<ChoresScreenProps> = ({navigation}) => {
-  const onAssignNewChore = () => navigation.navigate(ChoresParams.NewChore);
-  const {data, isLoading: sessionLoading} = useGetUserSession();
+  const {userSession} = usePersistedStore(state => state);
   const {data: chores, isLoading: choresLoading} = useGetUserChores(
-    data?.user.houseId || '',
+    userSession.user.houseId,
   );
 
-  useEffect(() => {
-    console.log('first', data);
-  }, [data]);
+  const choresList = chores ? getSectionList(chores) : [];
 
-  if (sessionLoading || choresLoading) {
-    return (
-      <ActivityIndicator color={COLORS.primary} style={styles.viewCenter} />
-    );
-  }
-
-  if (!chores) {
-    return (
-      <View style={styles.viewCenter}>
-        <CustomText subtitle>Something went wrong</CustomText>
-      </View>
-    );
-  }
-
-  const choresList = getSectionList(chores);
+  const onAssignNewChore = () =>
+    navigation.navigate(ChoresParams.NewChore, {
+      houseId: userSession.user.houseId,
+    });
 
   const renderItem: ListRenderItem<ChoreAssignment> = ({item}) => {
     const isCompleted = item.status === 'Completed';
+
     return (
       <View style={styles.renderItemContent}>
         <View>
-          <CustomText textArticle>{item.Chore.type}</CustomText>
+          <CustomText textArticle>{item.Chore?.type}</CustomText>
           <View style={styles.userInfoContent}>
-            <CustomText textArticle>{item.User.firstName} </CustomText>
-            <CustomText textArticle>{item.User.lastName}</CustomText>
+            <CustomText textArticle>{item.User?.firstName} </CustomText>
+            <CustomText textArticle>{item.User?.lastName}</CustomText>
           </View>
 
-          <CustomText textArticle>{item.Chore.description}</CustomText>
+          <CustomText textArticle>{item.Chore?.description}</CustomText>
         </View>
 
         <CustomText
@@ -95,12 +80,30 @@ export const ChoresScreen: React.FC<ChoresScreenProps> = ({navigation}) => {
           </Button>
         </View>
 
-        <CustomText subtitle style={styles.textSpace}>
-          Other's chores
-        </CustomText>
+        {!!choresList && (
+          <CustomText subtitle style={styles.textSpace}>
+            Other's chores
+          </CustomText>
+        )}
       </View>
     );
   };
+
+  if (choresLoading) {
+    return (
+      <ActivityIndicator color={COLORS.primary} style={styles.viewCenter} />
+    );
+  }
+
+  if (!chores) {
+    return (
+      <View style={styles.viewCenter}>
+        <CustomText subtitle>Something went wrong</CustomText>
+      </View>
+    );
+  }
+
+  console.log('here');
 
   return (
     <SafeAreaView style={styles.container}>
@@ -110,7 +113,6 @@ export const ChoresScreen: React.FC<ChoresScreenProps> = ({navigation}) => {
         contentContainerStyle={styles.sectionListContentContainer}
         ListHeaderComponent={listHeaderComponent}
         renderItem={renderItem}
-        initialNumToRender={20}
         onEndReachedThreshold={0.6}
         keyboardShouldPersistTaps="handled"
         keyExtractor={item => `${item.id}-/${item.id}`}

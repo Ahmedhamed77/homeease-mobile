@@ -15,6 +15,7 @@ export const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 12,
     marginBottom: 16,
+    marginVertical: 18,
   },
   textSpace: {
     paddingBottom: 12,

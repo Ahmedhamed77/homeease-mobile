@@ -9,7 +9,9 @@ export enum PaymentParams {
 
 export type PaymentParamsList = {
   [PaymentParams.Payment]: NO_PARAMS;
-  [PaymentParams.NewPayment]: NO_PARAMS;
+  [PaymentParams.NewPayment]: {
+    houseId: string;
+  };
 };
 
 export type PaymentNavigation = StackNavigationProp<

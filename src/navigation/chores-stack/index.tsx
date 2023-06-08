@@ -2,7 +2,11 @@ import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 
 import {ChoresParams, ChoresParamsList} from './interface';
-import {ChoresScreen, NewChoreScreen} from '../../screens';
+import {
+  ChoresScreen,
+  NewChoreCategoryScreen,
+  NewChoreScreen,
+} from '../../screens';
 
 const Stack = createStackNavigator<ChoresParamsList>();
 
@@ -18,6 +22,12 @@ export const ChoresStack = () => {
       <Stack.Screen
         name={ChoresParams.NewChore}
         component={NewChoreScreen}
+        options={{}}
+      />
+
+      <Stack.Screen
+        name={ChoresParams.NewCategory}
+        component={NewChoreCategoryScreen}
         options={{}}
       />
     </Stack.Navigator>

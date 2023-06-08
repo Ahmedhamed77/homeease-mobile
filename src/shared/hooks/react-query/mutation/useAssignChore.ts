@@ -1,17 +1,27 @@
-import { useMutation } from '@tanstack/react-query';
-import { assignChore } from '../../../../services/ApiService/chores';
-import { MutationKeys } from '../../../../services/react-query';
+import {useMutation} from '@tanstack/react-query';
+import {assignChore} from '../../../../services/ApiService/chores';
+import {
+  MutationKeys,
+  QueryKeys,
+  queryClient,
+} from '../../../../services/react-query';
+import {useNavigation} from '@react-navigation/native';
+
+import {Alert} from 'react-native';
 
 export const useAssignChore = () => {
-  //   const queryClient = useQueryClient();
+  const navigation = useNavigation();
+
   return useMutation(assignChore, {
     mutationKey: MutationKeys.assignChore,
-    onMutate: async ({ payload }) => {
-      console.log(payload, '---createDynamicScanCheck payload');
+    onMutate: async ({payload}) => {},
+    onSuccess: (_data, params) => {
+      queryClient.invalidateQueries([QueryKeys.getUserChores, params.houseId]);
+      navigation.goBack();
     },
-    onError: err => {
-      console.log(err, '------error------');
+    onError: (err: any) => {
+      Alert.alert('Error', err);
     },
-    onSettled: () => { },
+    onSettled: () => {},
   });
 };

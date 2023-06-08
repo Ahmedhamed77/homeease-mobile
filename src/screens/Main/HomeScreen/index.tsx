@@ -8,8 +8,8 @@ import {
   MainParams,
 } from '../../../navigation/main-stack/interface';
 import {styles} from './style';
-import {useGetUserSession} from '../../../shared/hooks/react-query/queries/useGetUserSession';
 import _ from 'lodash';
+import {usePersistedStore} from '../../../services/Store/store';
 interface HomeScreenProps {
   navigation: MainNavigation;
 }
@@ -17,7 +17,11 @@ interface HomeScreenProps {
 export const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const onJoinHouse = () => navigation.navigate(MainParams.JoinHouse);
 
-  const {data: _data} = useGetUserSession();
+  const {userHouse, userSession} = usePersistedStore(state => state);
+
+  console.log(userHouse, '-- user house');
+
+  console.log(userSession, '---user session');
 
   return (
     <SafeAreaView style={styles.container}>

@@ -27,10 +27,13 @@ interface PaymentScreenType {
 }
 
 export const PaymentScreen: React.FC<PaymentScreenType> = ({navigation}) => {
-  const {data, isLoading: sessionLoading} = useGetUserSession();
+  const {data: session, isLoading: sessionLoading} = useGetUserSession();
+
   const {data: payments, isLoading: paymentsLoading} = useGetPayments(
-    data?.user.houseId || '',
+    session?.user?.houseId || '',
   );
+
+  console.log(payments, '---payments');
 
   if (sessionLoading || paymentsLoading) {
     return (
@@ -43,7 +46,9 @@ export const PaymentScreen: React.FC<PaymentScreenType> = ({navigation}) => {
   }
 
   const onAssignNewPayment = () =>
-    navigation.navigate(PaymentParams.NewPayment);
+    navigation.navigate(PaymentParams.NewPayment, {
+      houseId: session?.user?.houseId || '',
+    });
 
   const renderPayment: ListRenderItem<Payment> = ({item}) => {
     const created = moment(item.createdAt).format('YYYY-MM-DD');
@@ -79,10 +84,25 @@ export const PaymentScreen: React.FC<PaymentScreenType> = ({navigation}) => {
   const listHeaderComponent = () => {
     return (
       <View style={styles.paymentHeaderContent}>
-        <CustomText textArticle>Add New Payemnt</CustomText>
+        <CustomText textArticle style={styles.textSpace}>
+          Add New payment so other users can know what they should pay
+        </CustomText>
         <Button mode="contained" onPress={onAssignNewPayment}>
           New Payment
         </Button>
+      </View>
+    );
+  };
+
+  const listEmptyComponent = () => {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <CustomText subtitle>No payment assigned</CustomText>
       </View>
     );
   };
@@ -91,9 +111,10 @@ export const PaymentScreen: React.FC<PaymentScreenType> = ({navigation}) => {
     <SafeAreaView style={styles.container}>
       <FlatList
         data={payments}
-        style={styles.scrollContainer}
         ListHeaderComponent={listHeaderComponent}
         renderItem={renderPayment}
+        ListEmptyComponent={listEmptyComponent}
+        contentContainerStyle={styles.scrollContainer}
       />
     </SafeAreaView>
   );

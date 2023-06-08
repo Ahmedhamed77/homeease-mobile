@@ -2,18 +2,21 @@ import {create, StoreApi} from 'zustand';
 import {createJSONStorage, persist} from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createAuthSlice, AuthSlice} from './auth/authSlice';
+import {createUserSlice, UserSlice} from './user/userSlice';
 
-export type StoreState = AuthSlice;
+export type PersistStoreState = AuthSlice & UserSlice;
+export type StoreState = UserSlice;
 
 export type StoreSlice<T> = (
-  set: StoreApi<StoreState>['setState'],
-  get: StoreApi<StoreState>['getState'],
+  set: StoreApi<StoreState | PersistStoreState>['setState'],
+  get: StoreApi<StoreState | PersistStoreState>['getState'],
 ) => T;
 
-export const usePersistedStore = create<StoreState>()(
+export const usePersistedStore = create<PersistStoreState>()(
   persist(
     (set, get) => ({
       ...createAuthSlice(set, get),
+      ...createUserSlice(set, get),
     }),
     {
       name: 'home_store',
@@ -23,5 +26,5 @@ export const usePersistedStore = create<StoreState>()(
 );
 
 export const useStore = create<StoreState>()((set, get) => ({
-  ...createAuthSlice(set, get),
+  ...createUserSlice(set, get),
 }));
