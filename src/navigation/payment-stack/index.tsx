@@ -1,8 +1,8 @@
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 
-import {PaymentParams, PaymentParamsList} from './interface';
-import {NewPaymentScreen, PaymentScreen} from '../../screens';
+import { PaymentParams, PaymentParamsList } from './interface';
+import { NewPaymentScreen, PaymentScreen } from '../../screens';
 
 const Stack = createStackNavigator<PaymentParamsList>();
 
@@ -12,13 +12,13 @@ export const PaymentStack = () => {
       <Stack.Screen
         name={PaymentParams.Payment}
         component={PaymentScreen}
-        options={{}}
+        options={{ headerShown: true }}
       />
 
       <Stack.Screen
         name={PaymentParams.NewPayment}
         component={NewPaymentScreen}
-        options={{}}
+        options={{ headerShown: true }}
       />
     </Stack.Navigator>
   );

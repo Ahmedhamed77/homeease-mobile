@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Platform, Pressable, ScrollView, View} from 'react-native';
+import React, { useState } from 'react';
+import { Platform, Pressable, ScrollView, View } from 'react-native';
 
 import moment from 'moment';
 
@@ -7,21 +7,21 @@ import DateTimePicker, {
   DateTimePickerEvent,
 } from '@react-native-community/datetimepicker';
 
-import {CustomText} from '../../../shared/ui';
+import { CustomText } from '../../../shared/ui';
 
-import {COLORS} from '../../../shared/colors';
-import {ActivityIndicator, Button} from 'react-native-paper';
+import { COLORS } from '../../../shared/colors';
+import { ActivityIndicator, Button } from 'react-native-paper';
 import {
   ChoresNavigation,
   ChoresParams,
 } from '../../../navigation/chores-stack/interface';
-import {styles} from './style';
-import {useGetUserChores} from '../../../shared/hooks/react-query/queries';
-import {RouteProp} from '@react-navigation/native';
+import { styles } from './style';
+import { useGetUserChores } from '../../../shared/hooks/react-query/queries';
+import { RouteProp } from '@react-navigation/native';
 
-import {ChoresParamsList} from '../../../navigation/chores-stack/interface';
-import {useAssignChore} from '../../../shared/hooks/react-query/mutation/useAssignChore';
-import {usePersistedStore} from '../../../services/Store/store';
+import { ChoresParamsList } from '../../../navigation/chores-stack/interface';
+import { useAssignChore } from '../../../shared/hooks/react-query/mutation/useAssignChore';
+import { usePersistedStore } from '../../../services/Store/store';
 
 interface NewChoreScreenProps {
   navigation: ChoresNavigation;
@@ -32,9 +32,9 @@ export const NewChoreScreen: React.FC<NewChoreScreenProps> = ({
   navigation,
   route,
 }) => {
-  const {houseId} = route.params;
+  const { houseId } = route.params;
 
-  const {userHouse} = usePersistedStore();
+  const { userHouse } = usePersistedStore();
   const [selectUser, setSelectedUser] = useState('');
   const [selectedChore, setSelectedChore] = useState('');
 
@@ -42,9 +42,9 @@ export const NewChoreScreen: React.FC<NewChoreScreenProps> = ({
 
   const isAndroid = Platform.OS === 'android';
 
-  const {mutate: assignChore, isLoading: assignChoreLoading} = useAssignChore();
+  const { mutate: assignChore, isLoading: assignChoreLoading } = useAssignChore();
 
-  const {data: userChores, isLoading: userChoresLoading} =
+  const { data: userChores, isLoading: userChoresLoading } =
     useGetUserChores(houseId);
 
   const sourceDate = new Date();
@@ -72,7 +72,7 @@ export const NewChoreScreen: React.FC<NewChoreScreenProps> = ({
     console.log(choreDate, '---choreDate');
     assignChore({
       houseId: houseId,
-      payload: {choreId: selectedChore, userId: selectUser, dueDate: choreDate},
+      payload: { choreId: selectedChore, userId: selectUser, dueDate: choreDate },
     });
   };
 
@@ -159,7 +159,7 @@ export const NewChoreScreen: React.FC<NewChoreScreenProps> = ({
               <Pressable
                 style={styles.pickerTextContainer}
                 onPress={() => setShowPicker(true)}>
-                <CustomText style={{color: COLORS.dark, textAlign: 'center'}}>
+                <CustomText style={{ color: COLORS.dark, textAlign: 'center' }}>
                   {moment(choreDate).format('YYYY-MM-DD')}
                 </CustomText>
               </Pressable>
@@ -170,7 +170,7 @@ export const NewChoreScreen: React.FC<NewChoreScreenProps> = ({
                   onChange={onChange}
                   style={styles.pickerStyle}
                   minimumDate={new Date()}
-                  negativeButton={{label: 'Cancel', textColor: 'red'}}
+                  negativeButton={{ label: 'Cancel', textColor: 'red' }}
                 />
               )}
             </>
@@ -188,7 +188,6 @@ export const NewChoreScreen: React.FC<NewChoreScreenProps> = ({
       <Button
         mode="contained"
         onPress={onAssignChore}
-        style={{marginBottom: 32}}
         loading={assignChoreLoading}
         disabled={!selectUser.length || !selectedChore.length}>
         Assign chore

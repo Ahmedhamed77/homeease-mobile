@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {styles} from './style';
+import { styles } from './style';
 import {
   ActivityIndicator,
   FlatList,
@@ -8,24 +8,24 @@ import {
   SafeAreaView,
   View,
 } from 'react-native';
-import {CustomText} from '../../../shared/ui';
-import {Button} from 'react-native-paper';
+import { CustomText } from '../../../shared/ui';
+import { Button } from 'react-native-paper';
 import {
   PaymentNavigation,
   PaymentParams,
 } from '../../../navigation/payment-stack/interface';
-import {useGetPayments} from '../../../shared/hooks/react-query/queries';
-import {Payment} from '../../../services/ApiService/payment/types';
+import { useGetPayments } from '../../../shared/hooks/react-query/queries';
+import { Payment } from '../../../services/ApiService/payment/types';
 import moment from 'moment';
-import {COLORS} from '../../../shared/colors';
-import {usePersistedStore} from '../../../services/Store/store';
+import { COLORS } from '../../../shared/colors';
+import { usePersistedStore } from '../../../services/Store/store';
 
 interface PaymentScreenType {
   navigation: PaymentNavigation;
 }
 
-export const PaymentScreen: React.FC<PaymentScreenType> = ({navigation}) => {
-  const {userSession} = usePersistedStore(state => state);
+export const PaymentScreen: React.FC<PaymentScreenType> = ({ navigation }) => {
+  const { userSession } = usePersistedStore(state => state);
   const {
     data: payments,
     isLoading: paymentsLoading,
@@ -50,14 +50,14 @@ export const PaymentScreen: React.FC<PaymentScreenType> = ({navigation}) => {
       houseId: userSession.user.houseId,
     });
 
-  const renderPayment: ListRenderItem<Payment> = ({item}) => {
+  const renderPayment: ListRenderItem<Payment> = ({ item }) => {
     const created = moment(item.createdAt).format('YYYY-MM-DD');
     const isCompleted = item.status === 'Completed';
 
     return (
       <View style={styles.renderItemContent}>
         <View style={styles.createdItem}>
-          <CustomText textArticle>Created</CustomText>
+          <CustomText textArticle>{item.Payer.firstName} {item.Payer.lastName}</CustomText>
           <CustomText textArticle style={{}}>
             {created}
           </CustomText>

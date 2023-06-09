@@ -1,4 +1,4 @@
-import {Status} from '../../../shared/types';
+import { Status, User } from '../../../shared/types';
 
 export type Payments = {
   payments: Payment[];
@@ -26,6 +26,8 @@ export type Payment = {
   houseId: string;
   id: string;
   payerId: string;
+  Payer: User;
+  Recipient: User;
   recipientId: string;
   status: string;
   updatedAt: string;

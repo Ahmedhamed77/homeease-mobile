@@ -1,7 +1,7 @@
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 
-import {ChoresParams, ChoresParamsList} from './interface';
+import { ChoresParams, ChoresParamsList } from './interface';
 import {
   ChoresScreen,
   NewChoreCategoryScreen,
@@ -16,19 +16,19 @@ export const ChoresStack = () => {
       <Stack.Screen
         name={ChoresParams.Chores}
         component={ChoresScreen}
-        options={{headerShown: false}}
+        options={{ headerShown: true }}
       />
 
       <Stack.Screen
         name={ChoresParams.NewChore}
         component={NewChoreScreen}
-        options={{}}
+        options={{ headerTitle: "New Chore" }}
       />
 
       <Stack.Screen
         name={ChoresParams.NewCategory}
         component={NewChoreCategoryScreen}
-        options={{}}
+        options={{ headerTitle: "New Category" }}
       />
     </Stack.Navigator>
   );

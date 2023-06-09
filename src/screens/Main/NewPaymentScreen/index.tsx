@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -7,10 +7,10 @@ import {
   ScrollView,
   View,
 } from 'react-native';
-import {styles} from './style';
-import {COLORS} from '../../../shared/colors';
-import {CustomText} from '../../../shared/ui';
-import {Button, Switch, TextInput} from 'react-native-paper';
+import { styles } from './style';
+import { COLORS } from '../../../shared/colors';
+import { CustomText } from '../../../shared/ui';
+import { Button, Switch, TextInput } from 'react-native-paper';
 
 import moment from 'moment';
 
@@ -23,11 +23,11 @@ import {
   PaymentParams,
   PaymentParamsList,
 } from '../../../navigation/payment-stack/interface';
-import {RouteProp} from '@react-navigation/native';
-import {usePersistedStore} from '../../../services/Store/store';
-import {useAddPayment} from '../../../shared/hooks/react-query/mutation/useAddPayment';
-import {AddPaymentPayload} from '../../../services/ApiService/payment/types';
-import {Status} from '../../../shared/types';
+import { RouteProp } from '@react-navigation/native';
+import { usePersistedStore } from '../../../services/Store/store';
+import { useAddPayment } from '../../../shared/hooks/react-query/mutation/useAddPayment';
+import { AddPaymentPayload } from '../../../services/ApiService/payment/types';
+import { Status, User } from '../../../shared/types';
 
 export type Payers = {
   name: string;
@@ -48,17 +48,18 @@ export const NewPaymentScreen: React.FC<NewPaymentScreenType> = ({
   navigation,
   route,
 }) => {
-  const [amountPayment, setAmountPayment] = useState('');
+  const [amountPayment, setAmountPayment] = useState('0');
 
   const [isSwitchOn, setIsSwitchOn] = useState(false);
 
   const onToggleSwitch = () => {
     setIsSwitchOn(!isSwitchOn);
+    setPayers(prev => prev.map(item => ({ ...item, amount: (+amountPayment / payers.length).toString() })))
   };
 
-  const {userHouse, userSession} = usePersistedStore(state => state);
+  const { userHouse, userSession } = usePersistedStore(state => state);
 
-  const {mutate, isLoading} = useAddPayment();
+  const { mutate, isLoading } = useAddPayment();
 
   const [showPicker, setShowPicker] = useState(false);
 
@@ -83,6 +84,11 @@ export const NewPaymentScreen: React.FC<NewPaymentScreenType> = ({
   const handlePayerAmountChange = (index: number, payerAmount: string) => {
     const updatedPayers = [...payers];
     updatedPayers[index].amount = payerAmount;
+    const newamount = updatedPayers.reduce(
+      (acc, payer) => acc + Number(payer.amount),
+      0,
+    );
+    setAmountPayment(newamount.toString());
     setPayers(updatedPayers);
   };
 
@@ -110,64 +116,51 @@ export const NewPaymentScreen: React.FC<NewPaymentScreenType> = ({
     ));
   };
 
-  const onSelectedPayers = (selectedItem: string) => {
-    const isExist = selectedPayers.some(item => item === selectedItem);
+  const onSelectedPayers = (selectedItem: User) => {
+    const isExist = selectedPayers.some(item => item === selectedItem.id);
     console.log(selectedPayers, 'selectedPayers');
-    console.log(isExist);
     if (!isExist) {
-      setSelectedPayers(prev => [...prev, selectedItem]);
+      console.log('does not exist')
+      setSelectedPayers(prev => [...prev, selectedItem.id]);
+      const newPayers = [...payers, {
+        name: `${selectedItem.firstName} ${selectedItem.lastName}`,
+        amount: ((+amountPayment || 0) / selectedPayers.length).toString(),
+        id: selectedItem.id,
+        payerId: selectedItem.id,
+        recipientId: userSession.user.id,
+        description: description,
+        createdAt: new Date(),
+        status: Status.Pending,
+      }]
+      newPayers.forEach(payer => { payer.amount = (+amountPayment / newPayers.length).toString() })
+      setPayers(newPayers);
     } else {
-      const newArr = selectedPayers.filter(item => item !== selectedItem);
+      const newArr = selectedPayers.filter(item => item !== selectedItem.id);
       setSelectedPayers(newArr);
+      setPayers(prev => prev.filter(item => item.id !== selectedItem.id))
     }
-  };
-
-  const handlePayment = () => {
-    if (isSwitchOn) {
-      const totalPayersAmount = payers.reduce(
-        (total, payer) => total + Number(payer.amount),
-        0,
-      );
-      if (totalPayersAmount !== Number(amountPayment)) {
-        Alert.alert(
-          'Error',
-          'The total amount assigned to payers should be equal to the payment amount.',
-        );
-        return false;
-      }
-    }
-
-    // Handle payment logic here
-    // You can navigate to the success screen or send the payment details to an API, etc.
-    console.log('Payment:', {amountPayment, description, payers});
-    return true;
   };
 
   const onAssignPayment = () => {
-    const isHandlePayment = handlePayment();
-
     const payersPayload: AddPaymentPayload[] = payers.map(payer => {
       return {
         amount: +payer.amount,
         payerId: payer.payerId,
         recipientId: payer.recipientId,
         description: payer.description,
-        createdAt: payer.createdAt,
+        createdAt: paymentDate,
         status: payer.status,
       };
     });
 
     console.log(payersPayload, '----payersPayload');
-    console.log(isHandlePayment, '---isHandlePayment');
-    if (isHandlePayment) {
-      mutate({houseId: userHouse.id, payload: payersPayload});
-      setPayers([]);
-    }
+    mutate({ houseId: userHouse.id, payload: payersPayload });
+    setPayers([]);
     // api here
   };
 
   const isValid =
-    !!description.length && !!payers.length && !!amountPayment.length;
+    !!description.trim().length && !!payers.length && !!amountPayment.trim().length;
 
   console.log(isValid, '--');
 
@@ -183,7 +176,10 @@ export const NewPaymentScreen: React.FC<NewPaymentScreenType> = ({
             <View style={styles.usersContent}>
               <TextInput
                 placeholder="0"
-                onChangeText={setAmountPayment}
+                onChangeText={(text) => {
+                  setAmountPayment(text);
+                  setPayers(prev => prev.map(item => ({ ...item, amount: (+text / payers.length).toString() })))
+                }}
                 defaultValue={amountPayment}
                 keyboardType={'numeric'}
                 style={styles.inputStyle}
@@ -219,7 +215,7 @@ export const NewPaymentScreen: React.FC<NewPaymentScreenType> = ({
               <Pressable
                 onPress={() => setShowPicker(true)}
                 style={styles.pickerTextContainer}>
-                <CustomText textDefault style={{textAlign: 'center'}}>
+                <CustomText textDefault style={{ textAlign: 'center' }}>
                   {moment(paymentDate).format('YYYY-MM-DD')}
                 </CustomText>
               </Pressable>
@@ -232,7 +228,7 @@ export const NewPaymentScreen: React.FC<NewPaymentScreenType> = ({
                   style={styles.pickerStyle}
                   minimumDate={new Date()}
                   collapsable
-                  negativeButton={{label: 'Cancel', textColor: 'red'}}
+                  negativeButton={{ label: 'Cancel', textColor: 'red' }}
                 />
               )}
             </View>
@@ -244,7 +240,7 @@ export const NewPaymentScreen: React.FC<NewPaymentScreenType> = ({
               style={styles.pickerStyle}
               minimumDate={new Date()}
               collapsable
-              negativeButton={{label: 'Cancel', textColor: 'red'}}
+              negativeButton={{ label: 'Cancel', textColor: 'red' }}
             />
           )}
         </View>
@@ -262,21 +258,7 @@ export const NewPaymentScreen: React.FC<NewPaymentScreenType> = ({
                 <Pressable
                   key={item.id}
                   onPress={() => {
-                    onSelectedPayers(item.id);
-                    setPayers(prev => [
-                      ...prev,
-
-                      {
-                        name: `${item.firstName} ${item.lastName}`,
-                        amount: amountPayment,
-                        id: item.id,
-                        payerId: item.id,
-                        recipientId: userSession.user.id,
-                        description: description,
-                        createdAt: new Date(),
-                        status: Status.Pending,
-                      },
-                    ]);
+                    onSelectedPayers(item);
                   }}
                   style={[
                     styles.itemStyle,
@@ -295,7 +277,7 @@ export const NewPaymentScreen: React.FC<NewPaymentScreenType> = ({
         </View>
       </View>
 
-      <View style={{marginBottom: 32}}>
+      <View style={{ marginBottom: 32 }}>
         <View
           style={{
             flexDirection: 'row',
@@ -312,7 +294,6 @@ export const NewPaymentScreen: React.FC<NewPaymentScreenType> = ({
       <Button
         mode="contained"
         onPress={onAssignPayment}
-        style={{marginBottom: 32}}
         disabled={!isValid}
         loading={isLoading}>
         Assign Payment

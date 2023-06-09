@@ -1,7 +1,7 @@
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 
-import {AuthParams, AuthParamsList} from './interface';
+import { AuthParams, AuthParamsList } from './interface';
 import {
   GettingStartScreen,
   LoginScreen,
@@ -15,28 +15,28 @@ export const AuthStack = () => {
   return (
     <Stack.Navigator
       initialRouteName={AuthParams.GettingStart}
-      screenOptions={{animationTypeForReplace: 'push'}}>
+      screenOptions={{ animationTypeForReplace: 'push' }}>
       <Stack.Screen
         name={AuthParams.GettingStart}
         component={GettingStartScreen}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name={AuthParams.Login}
         component={LoginScreen}
-        options={{headerShown: false}}
+        options={{}}
       />
 
       <Stack.Screen
         name={AuthParams.UserInfo}
         component={UserInfoScreen}
-        options={{headerShown: false}}
+        options={{ headerTitle: 'User Info' }}
       />
 
       <Stack.Screen
         name={AuthParams.UserCredentials}
         component={UserCredentialsScreen}
-        options={{headerShown: false}}
+        options={{ headerTitle: 'User Credentials' }}
       />
     </Stack.Navigator>
   );

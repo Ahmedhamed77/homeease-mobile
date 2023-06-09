@@ -1,10 +1,10 @@
-import {StyleSheet} from 'react-native';
-import {COLORS} from '../../../shared/colors';
+import { StyleSheet } from 'react-native';
+import { COLORS } from '../../../shared/colors';
 
 export const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    paddingHorizontal: 16,
+    padding: 16,
   },
   contentContainer: {
     flex: 1,

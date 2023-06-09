@@ -1,6 +1,6 @@
-import {StyleSheet} from 'react-native';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {COLORS} from '../../../shared/colors';
+import { StyleSheet } from 'react-native';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { COLORS } from '../../../shared/colors';
 
 export const styles = StyleSheet.create({
   container: {
@@ -32,6 +32,7 @@ export const styles = StyleSheet.create({
     marginBottom: 12,
   },
   createdItem: {
+    textTransform: 'capitalize',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

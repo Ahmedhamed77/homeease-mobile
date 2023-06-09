@@ -1,9 +1,10 @@
-import {StyleSheet} from 'react-native';
-import {COLORS} from '../../../shared/colors';
+import { StyleSheet } from 'react-native';
+import { COLORS } from '../../../shared/colors';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 16,
   },
   scrollContainer: {
     flexGrow: 1,
@@ -15,9 +16,6 @@ export const styles = StyleSheet.create({
     borderRadius: 12,
     marginBottom: 8,
   },
-  sectionListContentContainer: {
-    paddingHorizontal: 16,
-  },
   textSpace: {
     paddingBottom: 12,
   },
@@ -27,7 +25,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   renderItemContent: {
-    flex: 1,
     backgroundColor: COLORS.white,
     padding: 12,
     borderRadius: 12,

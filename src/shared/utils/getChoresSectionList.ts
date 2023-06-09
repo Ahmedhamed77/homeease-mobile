@@ -1,5 +1,5 @@
 import moment from 'moment';
-import {ChoreAssignment} from '../../services/ApiService/chores/types';
+import { ChoreAssignment } from '../../services/ApiService/chores/types';
 import _ from 'lodash';
 
 export const getSectionList = (data: ChoreAssignment[]) =>
@@ -9,7 +9,8 @@ export const getSectionList = (data: ChoreAssignment[]) =>
         ...item,
       };
     })
-    .groupBy(x => moment(x.createdAt).format('YYYY-MM-DD'))
+    .groupBy(x => moment(x.dueDate).format('YYYY-MM-DD'))
     .toPairs()
-    .map(value => ({title: value[0], data: value[1]}))
+    .sortBy(value => value[0])
+    .map(value => ({ title: value[0], data: value[1] }))
     .value();
