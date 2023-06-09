@@ -1,9 +1,12 @@
 export enum COLORS {
   dark = '#222222',
   primary = '#6949ff',
+  melrose = '#b4a4ff',
   white = '#FFFFFF',
   accent = '#f0edff',
   dark_red = '#FF1F00',
+
+  smoke_white = '#F6F6F6',
 
   aqua = '#1B86C5',
   grey = '#666666',
@@ -14,6 +17,7 @@ export enum COLORS {
   azure = '#0043A4',
   paleGrey = '#e6e6e6',
   lightGreen = '#41b619',
+  green = '#5a9e5d',
   smoke = '#F2F2F2',
   cyan = '#E3F3FC',
   black = '#000000',
@@ -28,4 +32,5 @@ export enum COLORS {
   red = '#DC1E2C',
   orange = '#F18809',
   dimGray = '#6A6A6A',
+  silverGray = '#ABABAB',
 }
